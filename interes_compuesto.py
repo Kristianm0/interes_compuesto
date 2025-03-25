@@ -2,67 +2,75 @@
 "📌 Ejercicio de interés compuesto -> ¿Cómo calcular el valor futuro de una inversión?"
 
 """ Ejemplo con Gru de Mi Villano Favorito  
-Gru decide invertir $1,000 en una cuenta bancaria que ofrece un 3% de interés compuesto mensual.  
-Si deja su dinero en la cuenta durante 1 año ¿Cuál será el valor futuro de la inversión de Gru después de 1 año?  
+Gru, ha decidido invertir $1,000,000 USD. El banco le ofrece una tasa de 3% efectivo trimestral, y él quiere saber cuánto tendrá después de 18 meses.
+
 """
 
 # --- Fórmula del Valor Futuro en Interés Compuesto ---  
 # VF = VP * (1 + i)^n
 
 """Datos  
-# VP -> Capital inicial = $1,000  
-# i -> Tasa de interés mensual en decimal (divide entre 100) = 3% = 0.03  
-# n -> Tiempo en meses = 18  
+VP -> Valor presente = $1,000.000
+i -> Tasa de interés mensual en decimal (divide entre 100) = 3% = 0.03  
+n -> Tiempo en meses = 18  
+
+Periodo de capitalizacion = Trimestral cada 3 meses
 """  
 
-from decimal import Decimal
+from decimal import Decimal 
+import locale 
 
-def calcular_interes_compuesto():
-    try:
-        # Pedir el capital inicial
-        valor_presente = Decimal(input("Dame el Valor Presente: "))
+locale.setlocale(locale.LC_ALL, 'en_US.UTF-8')
 
-        # Pedir al usuario cómo está expresada la tasa de interés
-        tipo_tasa = int(input("""
-        Elige cómo está expresada la tasa de interés:
-        1. Tasa anual
-        2. Tasa mensual
-        3. Tasa diaria
-        Opción: """))
+def formato_usd(valor):
+    return f"${valor:,.2f} USD"
 
-        # Pedir la tasa de interés y convertirla a decimal
-        tasa_interes = Decimal(input("Dame la tasa de interés sin el %: ").replace(",", ".")) / 100
 
-        # Pedir el tiempo en la unidad correspondiente a la tasa de interés
-        if tipo_tasa == 1:
-            tiempo = Decimal(input("Dame el tiempo en años: "))
-        elif tipo_tasa == 2:
-            tiempo = Decimal(input("Dame el tiempo en meses: "))  # Mantener en meses
-        elif tipo_tasa == 3:
-            tiempo = Decimal(input("Dame el tiempo en días: "))  # Mantener en días
+def interes_compuesto():
+    try: 
+        valor_presente = Decimal(input("Dame el valor presente: "))
+
+        unidad_tiempo = int(input("¿Quieres ingresar el tiempo en 1. Meses o 2. Años? "))
+
+        if unidad_tiempo == 1:
+            numero_tiempo = Decimal(input("Dame el tiempo en meses: "))
+        elif unidad_tiempo == 2:
+            numero_tiempo = Decimal(input("Dame el tiempo en años: ")) * 12  
         else:
-            raise ValueError("Opción no válida. Debes elegir 1, 2 o 3.")
-
-        # Calcular la tasa y tiempo en la misma unidad
-        if tipo_tasa == 1:
-            tasa_interes = tasa_interes  # La tasa ya está en años
-            n = tiempo  # Tiempo en años
-        elif tipo_tasa == 2:
-            tasa_interes = tasa_interes / 12  # Convertimos a tasa mensual
-            tiempo = tiempo  # Mantener tiempo en meses
-        elif tipo_tasa == 3:
-            tasa_interes = tasa_interes / 365  # Convertimos a tasa diaria
-            tiempo = tiempo  # Mantener tiempo en días
+            print("❌ Opción no válida. Se asumirá tiempo en meses.")
+            numero_tiempo = Decimal(input("Dame el tiempo en meses: "))
         
-        # Aplicar la fórmula de interés compuesto
-        valor_futuro = valor_presente * (1 + tasa_interes) ** tiempo
+        tasa = Decimal(input("Dame la tasa sin el %: ")) / 100
 
-        # Mostrar resultado con dos decimales
-        print(f"El valor futuro de la inversión es: ${valor_futuro:.2f}")
+        tipo_periodo_tiempo = int(input("""Periodo de Capitalizacion: 
+        1. Mensual (1 mes)
+        2. Bimestral (2 meses)
+        3. Trimestral (3 meses) 
+        4. Semestral (6 meses)
+        5. Anual (12 meses)
+        ->                                 """))
 
-    except Exception as e:
-        print("😔 Se ha producido un error inesperado.")
-        print(f"Detalles del error: {e}")
+         # Asignar divisor según la elección del usuario
+        if tipo_periodo_tiempo == 1:
+            divisor = 1
+        elif tipo_periodo_tiempo == 2:
+            divisor = 2
+        elif tipo_periodo_tiempo == 3:
+            divisor = 3
+        elif tipo_periodo_tiempo == 4:
+            divisor = 6
+        elif tipo_periodo_tiempo == 5:
+            divisor = 12
+        else:
+            print("❌ Opción no válida.")
+        
+        numero_periodo_tiempo = numero_tiempo / divisor
 
-# Llamar la función para calcular interés compuesto
-calcular_interes_compuesto()
+        f_interes_compuesto = valor_presente * (1 + tasa) ** numero_periodo_tiempo
+
+        print(f"✅ El valor futuro de la inversión es: {formato_usd(f_interes_compuesto)}")
+
+    except Exception as error:
+        print(f"⚠️ Hubo un error: {error}")
+
+interes_compuesto()
