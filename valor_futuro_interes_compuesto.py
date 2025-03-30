@@ -25,7 +25,6 @@ locale.setlocale(locale.LC_ALL, 'en_US.UTF-8')
 def formato_usd(valor):
     return f"${valor:,.2f} USD"
 
-
 def interes_compuesto():
     try: 
         valor_presente = Decimal(input("Dame el valor presente: "))
