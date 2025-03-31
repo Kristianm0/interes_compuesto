@@ -15,6 +15,8 @@ Puedes ver el código aquí: [tasa_interes_compuesto.py](https://github.com/Kris
 Kevin invierte **$1,000** al **8% anual** durante **3 años**.
 
 Puedes ver el código aquí: [valor_futuro_interes_compuesto.py](https://github.com/Kristianm0/interes_compuesto/blob/main/valor_futuro_interes_compuesto.py)
+**Video explicativo**: [Ver video sobre el cálculo del tiempo en interés compuesto](https://youtu.be/LEIXUVaygcU?feature=shared
+)
 
 ### ⏳ Tiempo Necesario para Alcanzar una Meta
 El Macho quiere **$80,000**, pero solo tiene **$25,000**. ¿Cuánto tiempo tardará al **7% anual**?
